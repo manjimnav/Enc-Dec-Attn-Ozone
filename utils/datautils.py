@@ -16,7 +16,7 @@ def load_data(path):
 
 
 def split_data_generator(df, horizont, window, batch_size, initial_year=2006):
-    for i in range(10):
+    for i in range(2015 - initial_year + 1):
         scaler = MinMaxScaler(feature_range=(0, 1))
         scaler_o3 = MinMaxScaler(feature_range=(0, 1))
         year = initial_year + i
