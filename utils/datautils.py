@@ -34,9 +34,17 @@ def split_data_generator(df, horizont, window, batch_size):
         df_test = pd.DataFrame(data=data_test,
                                columns=test.columns)
 
-        training_generator = DataGenerator(df_train.values, df_train.iloc[:, 0].values, length=window,
-                                           batch_size=batch_size, n_outputs=horizont)
+        validation_row = int(len(df_train) * 0.9)
+
+        train_generator = DataGenerator(df_train.iloc[:validation_row, :].values,
+                                        df_train.iloc[:validation_row, 0].values, length=window,
+                                        batch_size=batch_size, n_outputs=horizont)
+
+        validation_generator = DataGenerator(df_train.iloc[validation_row:, :].values,
+                                             df_train.iloc[validation_row:, 0].values, length=window,
+                                             batch_size=batch_size, n_outputs=horizont)
+
         test_generator = DataGenerator(df_test.values, df_test.iloc[:, 0].values, length=window,
                                        batch_size=batch_size, n_outputs=horizont)
 
-        yield training_generator, test_generator, scaler, scaler_o3, year
+        yield train_generator, test_generator, validation_generator, scaler, scaler_o3, year

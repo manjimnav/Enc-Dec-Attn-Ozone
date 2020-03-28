@@ -27,14 +27,17 @@ if __name__ == '__main__':
     epochs = args.epochs
 
     total_metrics = None
-    for training_generator, test_generator, scaler, scaler_o3, year in split_data_generator(df, horizon, window,
-                                                                                            batch_size):
+    for training_generator, test_generator, validation_generator, scaler, scaler_o3, year in split_data_generator(df,
+                                                                                                                  horizon,
+                                                                                                                  window,
+                                                                                                                  batch_size):
         print("Training for year: " + str(year))
 
         model = build_model(window, horizon)
         reduce_lr, es, checkpoint = initialize_callbacks(checkpoint_path, year)
 
         model.fit(training_generator,
+                  validation_data=validation_generator,
                   use_multiprocessing=True,
                   callbacks=[reduce_lr, es, checkpoint],
                   epochs=epochs)
