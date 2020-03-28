@@ -21,8 +21,8 @@ def split_data_generator(df, horizont, window, batch_size):
         scaler_o3 = MinMaxScaler(feature_range=(0, 1))
         year = 2006 + i
 
-        train = df[df.index.year == year]
-        test = df[df.index.year != year]
+        train = df[df.index.year != year]
+        test = df[df.index.year == year]
 
         data_train = scaler.fit_transform(train.values)
         data_test = scaler.transform(test.values)
