@@ -45,6 +45,5 @@ if __name__ == '__main__':
             total_metrics = metrics
         else:
             total_metrics = pd.concat(total_metrics, metrics)
-        break
 
     total_metrics.to_csv(os.path.splitext(os.path.basename(args.data))[0] + '_metrics.csv')

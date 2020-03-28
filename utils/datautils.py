@@ -7,7 +7,6 @@ from .datagenerator import DataGenerator
 def load_data(path):
     df = pd.read_csv(path)
 
-    df = df.iloc[:9200, :]
     df['FECHA_HORA'] = pd.to_datetime(df['FECHA_HORA'])
     df = df.set_index('FECHA_HORA')
 
