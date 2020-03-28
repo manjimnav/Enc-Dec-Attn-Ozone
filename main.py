@@ -16,7 +16,7 @@ if __name__ == '__main__':
     parser.add_argument("-ho", "--horizon", help="Horizon size", default=24)
     parser.add_argument("-e", "--epochs", type=int, help="Number of epochs", default=100)
     parser.add_argument("-b", "--batch", help="Batch size", default=32)
-    parser.add_argument("-y", "--year", help="Initial year", default=2006)
+    parser.add_argument("-y", "--year", type=int, help="Initial year", default=2006)
 
     args = parser.parse_args()
 
