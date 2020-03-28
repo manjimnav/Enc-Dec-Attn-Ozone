@@ -15,11 +15,11 @@ def load_data(path):
     return df
 
 
-def split_data_generator(df, horizont, window, batch_size):
+def split_data_generator(df, horizont, window, batch_size, initial_year=2006):
     for i in range(10):
         scaler = MinMaxScaler(feature_range=(0, 1))
         scaler_o3 = MinMaxScaler(feature_range=(0, 1))
-        year = 2006 + i
+        year = initial_year + i
 
         train = df[df.index.year != year]
         test = df[df.index.year == year]
