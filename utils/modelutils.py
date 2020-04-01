@@ -11,7 +11,7 @@ def build_model(window, horizont, model):
         out = tf.keras.layers.Attention()(out)
         out = tf.keras.layers.LSTM(256, activation='relu')(out)
     else:
-        out = tf.keras.layers.LSTM(256, activation='relu', return_sequences=True)(inp)
+        out = tf.keras.layers.LSTM(512, activation='relu', return_sequences=True)(inp)
         out = Attention()(out)
 
     out = tf.keras.layers.Dense(horizont)(out)
