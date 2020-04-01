@@ -1,13 +1,20 @@
 import tensorflow as tf
 
+from utils.ffattn import Attention
 
-def build_model(window, horizont):
+
+def build_model(window, horizont, model):
     inp = tf.keras.layers.Input(shape=(window, 3))
-    out = tf.keras.layers.LSTM(256, activation='relu', return_sequences=True, return_state=True)(inp)
-    out = tf.keras.layers.Attention()(out)
-    out = tf.keras.layers.LSTM(256, activation='relu')(out)
-    out = tf.keras.layers.Dense(horizont)(out)
 
+    if 'enc-attn-dec' in model:
+        out = tf.keras.layers.LSTM(256, activation='relu', return_sequences=True, return_state=True)(inp)
+        out = tf.keras.layers.Attention()(out)
+        out = tf.keras.layers.LSTM(256, activation='relu')(out)
+    else:
+        out = tf.keras.layers.LSTM(256, activation='relu', return_sequences=True)(inp)
+        out = Attention()(out)
+
+    out = tf.keras.layers.Dense(horizont)(out)
     model = tf.keras.Model(inputs=inp, outputs=out)
     model.compile(optimizer='adam', loss='mse', metrics=['mae'])
 

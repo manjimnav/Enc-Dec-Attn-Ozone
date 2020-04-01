@@ -15,8 +15,9 @@ if __name__ == '__main__':
     parser.add_argument("-w", "--window", help="Window size", default=24)
     parser.add_argument("-ho", "--horizon", help="Horizon size", default=24)
     parser.add_argument("-e", "--epochs", type=int, help="Number of epochs", default=100)
-    parser.add_argument("-b", "--batch", help="Batch size", default=32)
+    parser.add_argument("-b", "--batch", help="Batch size", default=8)
     parser.add_argument("-y", "--year", type=int, help="Initial year", default=2006)
+    parser.add_argument("-m", "--model", help="Model", default='enc-attn-dec', choices=['enc-attn-dec', 'ff-attn'])
 
     args = parser.parse_args()
 
@@ -28,7 +29,7 @@ if __name__ == '__main__':
     checkpoint_path = args.checkpoint
     epochs = args.epochs
 
-    metrics_file = os.path.splitext(os.path.basename(args.data))[0] + '_metrics.csv'
+    metrics_file = os.path.splitext(os.path.basename(args.data))[0] + '_' + args.model + '_metrics.csv'
     if os.path.isfile(metrics_file):
         total_metrics = pd.read_csv(metrics_file)
     else:
@@ -42,7 +43,7 @@ if __name__ == '__main__':
         print("Training for year: " + str(year))
         start_time = time.time()
 
-        model = build_model(window, horizon)
+        model = build_model(window, horizon, args.model)
         reduce_lr, es, checkpoint = initialize_callbacks(checkpoint_path, year)
 
         model.fit(training_generator,
