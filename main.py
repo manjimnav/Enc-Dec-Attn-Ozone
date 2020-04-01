@@ -48,7 +48,7 @@ if __name__ == '__main__':
 
         model.fit(training_generator,
                   validation_data=validation_generator,
-                  use_multiprocessing=True,
+                  use_multiprocessing=False,
                   callbacks=[reduce_lr, es, checkpoint],
                   epochs=epochs)
 
